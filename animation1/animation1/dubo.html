@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <style>
+    *,
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        display: flex;
+        display: -webkit-flex;
+        flex-direction: collumn;
+        align-content: center;
+        justify-content: center;
+        background-color: red;
+    }
+
+    .container {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: khaki;
+        flex: 1;
+    }
+
+    .wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        display: -webkit-flex;
+        flex-direction: collumn;
+        justify-content: center;
+        align-self: center;
+        align-content: center;
+        position: relative;
+    }
+
+    .con {
+        width: 1000px;
+        min-width: 1000px;
+        background-color: lightblue;
+        position: relative;
+        flex: 0 0 1000px;
+    }
+
+    .item {
+        background-color: lightgreen;
+        width: 30px;
+        height: 30px;
+        color: #fff;
+        line-height: 30px;
+        text-align: center;
+        position: absolute;
+        cursor: pointer;
+    }
+
+    .item:nth-child(1) {
+        left: 320px;
+        top: 40px;
+    }
+
+    .item:nth-child(2) {
+        left: 400px;
+        top: 80px;
+    }
+
+    .item:nth-child(3) {
+        left: 600px;
+        top: 120px;
+    }
+
+    .item:nth-child(4) {
+        left: 510px;
+        top: 33px;
+    }
+
+    .item:nth-child(5) {
+        left: 220px;
+        top: 350px;
+    }
+
+    .item:nth-child(6) {
+        left: 440px;
+        top: 440px;
+    }
+
+    @media screen and(max-width:1200px) {
+        body {
+            overflow-x: hidden;
+        }
+    }
+
+    .right {
+        width: 500px;
+        height: 100%;
+        background-color: lightslategray;
+        /* flex:0 0 500px; */
+        position: absolute;
+        text-align: center;
+        transform: translateX(-1000000px);
+        -webkit-transform: translateX(-1000000px);
+        -moz-transform: translateX(-1000000px);
+        transition: all 1s cubic-bezier(1, 0.33, .44, .55);
+        -webkit-transition: all 1s cubic-bezier(1, 0.33, .44, .55);
+        -moz-transition: all 1s cubic-bezier(1, 0.33, .44, .55);
+    }
+
+    .right h1 {
+        color: #fff;
+    }
+
+    .right.moveIn {
+        transform: translateX(0px);
+        -webkit-transform: translateX(0px);
+        -moz-transform: translateX(0px);
+        transition: all 1s cubic-bezier(1, 0.33, .44, .55);
+        -webkit-transition: all 1s cubic-bezier(1, 0.33, .44, .55);
+        -moz-transition: all 1s cubic-bezier(1, 0.33, .44, .55);
+    }
+    </style>
+    <script src="jquery.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="wrapper">
+            <div class="con" id="con">
+                <div class="item">11</div>
+                <div class="item">22</div>
+                <div class="item">33</div>
+                <div class="item">44</div>
+                <div class="item">55</div>
+                <div class="item">66</div>
+                <button id='btn'>点击</button>
+            </div>
+            <div class="right">
+                <h1> I'm content</h1>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+$(function() {
+    var $doc = $(document);
+    var off = false;
+    $doc.on('click', '.item', function(event) {
+        var e = event || window.event;
+        var conOffL = $('#con').offset().left - 0;
+        var conOffT = $('#con').offset().top - 0;
+        var scL = (document.body.scrollLeft - 0) || (document.documentElement.scrollLeft - 0);
+        var scT = (document.body.scrollTop - 0) || (document.documentElement.scrollTop - 0);
+        var offL = $(this).offset().left - 0;
+        var offT = $(this).offset().top - 0;
+        console.log(scL, scT, offL, offT, e.clientX, e.clientY, conOffL, conOffT, "------")
+        var mouseX = e.clientX - 0 + scL - conOffL || e.pageX - 0 - conOffL;
+        var mouseY = e.clientY - 0 + scT - conOffT || e.pageY - 0 - conOffT;
+        $('.item').each(function(index, item) {
+            $(item).stop().animate({
+                left: mouseX + "px",
+                top: mouseY + 40 * index + 'px'
+            }, function() {
+                console.log('hahaha');
+            })
+        })
+
+    })
+    $(document.body).on('click', function() {
+            var e = event || window.event;
+            var scL = (document.body.scrollLeft - 0) || (document.documentElement.scrollLeft - 0);
+            var scT = (document.body.scrollTop - 0) || (document.documentElement.scrollTop - 0);
+            var offL = $(this).offset().left - 0;
+            var offT = $(this).offset().top - 0;
+            console.log(scL, scT, offL, offT, e.clientX, e.clientY)
+            var mouseX = e.clientX - 0 + scL || e.pageX - 0;
+            var mouseY = e.clientY - 0 + scT || e.pageY - 0;
+            console.log(mouseX, mouseY, '=====');
+        })
+        /*     var on = false;
+         $('#btn').on('click',function(){
+                 if(on){
+                       $(this).html('').html('点1');
+                       on = false;
+                 }else{
+                       $(this).html('').html('点0');
+                       on = true;
+                 }
+         })*/
+})
+</script>
